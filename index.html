@@ -19,7 +19,11 @@
     nav { position:fixed; inset:0 0 auto; z-index:20; border-bottom:1px solid rgba(255,255,255,.12); background:rgba(20,20,20,.88); backdrop-filter:blur(16px); color:white; }
     .nav-inner { min-height:74px; display:flex; align-items:center; justify-content:space-between; gap:24px; }
     .brand { display:flex; align-items:center; gap:.72rem; text-decoration:none; font-weight:800; letter-spacing:.16em; font-size:.98rem; }
-    .mark { width:25px; height:25px; color:var(--green); }
+    .brand-logo {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
     .nav-links { display:flex; align-items:center; gap:2rem; }
     .nav-links a { color:#ddd; text-decoration:none; font-size:.9rem; }
     .nav-links a:hover, .nav-links a:focus-visible { color:var(--green); }
@@ -116,8 +120,9 @@
   <nav aria-label="Primary navigation">
     <div class="shell nav-inner">
       <a class="brand" href="#top" aria-label="Arachne home">
-        <svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><path d="M10 54 32 9l22 45M18 38h28" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        ARACHNE
+  <img class="brand-logo" src="logo.png" alt="">
+  ARACHNE
+</a>
       </a>
       <button class="menu" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="Open menu">☰</button>
       <div class="nav-links" id="nav-links">
