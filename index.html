@@ -1,20 +1,184 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Arachne</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Arachne discovers the molecular interactions that drive disease and translates those insights into therapeutic opportunities.">
+  <meta name="theme-color" content="#141414">
+  <title>Arachne | Molecular Interaction Engine</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23141414'/%3E%3Cpath d='M14 48 32 12l18 36M20 36h24' fill='none' stroke='%238DD402' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <style>
+    :root { --ink:#141414; --green:#8dd402; --orange:#f7941d; --paper:#f6f7f2; --line:rgba(20,20,20,.14); --max:1180px; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; color:var(--ink); background:var(--paper); font-family:Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; line-height:1.5; }
+    a { color:inherit; }
+    .shell { width:min(calc(100% - 40px), var(--max)); margin-inline:auto; }
+    .eyebrow { display:flex; align-items:center; gap:.65rem; margin:0 0 1.2rem; text-transform:uppercase; letter-spacing:.13em; font-weight:750; font-size:.76rem; }
+    .eyebrow::before { content:""; width:28px; height:3px; background:var(--green); }
+    nav { position:fixed; inset:0 0 auto; z-index:20; border-bottom:1px solid rgba(255,255,255,.12); background:rgba(20,20,20,.88); backdrop-filter:blur(16px); color:white; }
+    .nav-inner { min-height:74px; display:flex; align-items:center; justify-content:space-between; gap:24px; }
+    .brand { display:flex; align-items:center; gap:.72rem; text-decoration:none; font-weight:800; letter-spacing:.16em; font-size:.98rem; }
+    .mark { width:25px; height:25px; color:var(--green); }
+    .nav-links { display:flex; align-items:center; gap:2rem; }
+    .nav-links a { color:#ddd; text-decoration:none; font-size:.9rem; }
+    .nav-links a:hover, .nav-links a:focus-visible { color:var(--green); }
+    .nav-cta { border:1px solid var(--green); padding:.64rem 1rem; color:white !important; }
+    .menu { display:none; border:0; background:none; color:white; font-size:1.45rem; cursor:pointer; }
+    .hero { position:relative; min-height:790px; display:grid; align-items:center; overflow:hidden; padding:144px 0 80px; color:white; background:var(--ink); }
+    .hero::before { content:""; position:absolute; width:660px; aspect-ratio:1; right:-80px; top:80px; border:1px solid rgba(141,212,2,.22); transform:rotate(17deg); }
+    .hero::after { content:""; position:absolute; width:470px; aspect-ratio:1; right:90px; top:175px; border:1px solid rgba(141,212,2,.13); transform:rotate(45deg); }
+    .hero-grid { display:grid; grid-template-columns:1.2fr .8fr; gap:5rem; align-items:center; position:relative; z-index:1; }
+    h1 { max-width:820px; margin:0; font-size:clamp(3.25rem, 7vw, 6.75rem); line-height:.91; letter-spacing:-.065em; font-weight:760; }
+    h1 span { color:var(--green); }
+    .hero-copy { max-width:630px; margin:2rem 0 2.4rem; color:#c9cbc5; font-size:clamp(1.08rem, 1.5vw, 1.28rem); }
+    .button { display:inline-flex; align-items:center; gap:.8rem; padding:.92rem 1.2rem; background:var(--green); color:var(--ink); text-decoration:none; font-weight:800; transition:.2s ease; }
+    .button:hover { background:#a2ee12; transform:translateY(-2px); }
+    .button::after { content:"→"; font-size:1.15em; }
+    .molecule { position:relative; aspect-ratio:1; max-width:390px; margin:auto; }
+    .molecule svg { width:100%; height:100%; overflow:visible; }
+    .orbit { transform-origin:center; animation:drift 14s ease-in-out infinite alternate; }
+    @keyframes drift { to { transform:rotate(13deg) scale(1.025); } }
+    .proof { position:absolute; left:0; right:0; bottom:0; border-top:1px solid rgba(255,255,255,.13); }
+    .proof-grid { display:grid; grid-template-columns:repeat(3,1fr); }
+    .proof-item { padding:1.25rem 1.5rem; border-right:1px solid rgba(255,255,255,.13); }
+    .proof-item:first-child { padding-left:0; }
+    .proof-item:last-child { border:0; }
+    .proof strong { display:block; color:var(--green); font-size:.78rem; text-transform:uppercase; letter-spacing:.12em; }
+    .proof span { color:#d7d7d2; font-size:.9rem; }
+    section { padding:110px 0; }
+    h2 { margin:0; max-width:850px; font-size:clamp(2.2rem, 4.5vw, 4.5rem); line-height:1.02; letter-spacing:-.048em; }
+    .lede { max-width:700px; margin:1.8rem 0 0; color:#555750; font-size:1.16rem; }
+    .problem { background:white; }
+    .problem-grid { display:grid; grid-template-columns:.9fr 1.1fr; gap:7rem; align-items:start; }
+    .tension { display:grid; grid-template-columns:1fr 1fr; margin-top:4rem; border-top:1px solid var(--line); }
+    .tension article { padding:2rem 2rem 1rem 0; }
+    .tension article + article { padding-left:2rem; border-left:1px solid var(--line); }
+    .number { font-size:4.2rem; line-height:1; letter-spacing:-.06em; font-weight:790; }
+    .tension h3 { margin:.8rem 0 .45rem; font-size:1.25rem; }
+    .tension p { margin:0; color:#65675f; }
+    .platform { color:white; background:var(--ink); }
+    .platform .eyebrow, .platform h2 { color:white; }
+    .platform .lede { color:#b8bab4; }
+    .platform-layout { display:grid; grid-template-columns:.8fr 1.2fr; gap:6rem; margin-top:4.5rem; }
+    .steps { counter-reset:step; }
+    .step { position:relative; padding:1.7rem 0 1.7rem 4.25rem; border-top:1px solid rgba(255,255,255,.16); }
+    .step::before { counter-increment:step; content:"0" counter(step); position:absolute; left:0; top:1.72rem; color:var(--green); font:750 .8rem/1 sans-serif; letter-spacing:.12em; }
+    .step h3 { margin:0 0 .45rem; font-size:1.3rem; }
+    .step p { margin:0; color:#aeb0aa; }
+    .engine { min-height:500px; display:grid; place-items:center; position:relative; border:1px solid rgba(255,255,255,.16); background:radial-gradient(circle at center, rgba(141,212,2,.13), transparent 52%); }
+    .engine svg { width:88%; max-width:560px; }
+    .applications { background:var(--green); }
+    .applications .eyebrow::before { background:var(--ink); }
+    .applications-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; margin-top:4rem; background:rgba(20,20,20,.28); border:1px solid rgba(20,20,20,.28); }
+    .app-card { min-height:290px; padding:2.2rem; background:var(--green); transition:.25s ease; }
+    .app-card:hover { background:#a0e91a; transform:translateY(-5px); }
+    .app-card .index { display:block; margin-bottom:5rem; font-weight:800; font-size:.78rem; letter-spacing:.12em; }
+    .app-card h3 { margin:0 0 .8rem; font-size:1.55rem; }
+    .app-card p { margin:0; color:#2e371c; }
+    .about { background:var(--paper); }
+    .about-grid { display:grid; grid-template-columns:1.1fr .9fr; gap:7rem; align-items:end; }
+    .statement { margin:0; font-size:clamp(1.6rem, 2.7vw, 2.7rem); line-height:1.22; letter-spacing:-.035em; }
+    .statement em { color:#5d8c00; font-style:normal; }
+    .about-copy p { color:#5e6058; font-size:1.05rem; }
+    .contact { padding:90px 0; color:white; background:var(--ink); }
+    .contact-grid { display:flex; justify-content:space-between; align-items:end; gap:3rem; }
+    .contact h2 { max-width:760px; }
+    .contact .eyebrow { color:var(--green); }
+    footer { padding:2rem 0; color:#91938d; background:var(--ink); border-top:1px solid rgba(255,255,255,.12); font-size:.84rem; }
+    .footer-inner { display:flex; justify-content:space-between; gap:1rem; }
+    .reveal { opacity:0; transform:translateY(22px); transition:opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity:1; transform:none; }
+    @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } .orbit { animation:none; } .reveal { opacity:1; transform:none; transition:none; } }
+    @media (max-width:820px) {
+      .shell { width:min(calc(100% - 28px), var(--max)); }
+      .menu { display:block; }
+      .nav-links { display:none; position:absolute; top:74px; left:0; right:0; flex-direction:column; align-items:stretch; gap:0; padding:1rem 20px 1.5rem; background:var(--ink); border-top:1px solid rgba(255,255,255,.12); }
+      .nav-links.open { display:flex; }
+      .nav-links a { padding:.8rem 0; }
+      .nav-cta { text-align:center; margin-top:.5rem; }
+      .hero { min-height:auto; padding:135px 0 190px; }
+      .hero-grid, .problem-grid, .platform-layout, .about-grid { grid-template-columns:1fr; gap:3.5rem; }
+      .molecule { display:none; }
+      .proof-grid { grid-template-columns:1fr; }
+      .proof-item, .proof-item:first-child { padding:.75rem 0; border-right:0; border-bottom:1px solid rgba(255,255,255,.11); }
+      section { padding:78px 0; }
+      .tension, .applications-grid { grid-template-columns:1fr; }
+      .tension article + article { padding-left:0; border-left:0; }
+      .applications-grid { gap:1px; }
+      .app-card { min-height:230px; }
+      .app-card .index { margin-bottom:3rem; }
+      .contact-grid { align-items:start; flex-direction:column; }
+    }
+  </style>
 </head>
-
 <body>
-  <h1>Arachne</h1>
-  <h2>Molecular Interaction Engine for Therapeutic Discovery</h2>
+  <nav aria-label="Primary navigation">
+    <div class="shell nav-inner">
+      <a class="brand" href="#top" aria-label="Arachne home">
+        <svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><path d="M10 54 32 9l22 45M18 38h28" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        ARACHNE
+      </a>
+      <button class="menu" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="Open menu">☰</button>
+      <div class="nav-links" id="nav-links">
+        <a href="#why">Why Arachne</a><a href="#platform">WEAVER™</a><a href="#applications">Applications</a><a href="#about">About</a><a class="nav-cta" href="#contact">Connect with us</a>
+      </div>
+    </div>
+  </nav>
 
-  <p>
-    Arachne discovers the molecular interactions that drive disease
-    and translates those insights into therapeutic opportunities.
-  </p>
+  <main id="top">
+    <header class="hero">
+      <div class="shell hero-grid">
+        <div>
+          <p class="eyebrow">Molecular interaction engine</p>
+          <h1>See what drives disease—not only what is <span>present.</span></h1>
+          <p class="hero-copy">Arachne discovers native-cell molecular interactions and translates those mechanistic insights into therapeutic opportunities.</p>
+          <a class="button" href="#platform">Explore the platform</a>
+        </div>
+        <div class="molecule" aria-hidden="true">
+          <svg viewBox="0 0 420 420">
+            <g class="orbit" fill="none" stroke="#8dd402">
+              <ellipse cx="210" cy="210" rx="174" ry="76" opacity=".7" transform="rotate(28 210 210)"/>
+              <ellipse cx="210" cy="210" rx="174" ry="76" opacity=".4" transform="rotate(92 210 210)"/>
+              <ellipse cx="210" cy="210" rx="174" ry="76" opacity=".25" transform="rotate(151 210 210)"/>
+            </g>
+            <g fill="#8dd402"><circle cx="210" cy="210" r="13"/><circle cx="77" cy="120" r="7"/><circle cx="327" cy="91" r="5"/><circle cx="350" cy="284" r="8"/><circle cx="110" cy="331" r="6"/></g>
+            <g stroke="#fff" stroke-width="1" opacity=".4"><path d="M77 120 210 210 327 91M210 210l140 74M210 210 110 331"/></g>
+          </svg>
+        </div>
+      </div>
+      <div class="proof"><div class="shell proof-grid"><div class="proof-item"><strong>Native context</strong><span>Interactions captured inside intact cells</span></div><div class="proof-item"><strong>Single-cell resolution</strong><span>Heterogeneity without losing mechanism</span></div><div class="proof-item"><strong>NGS output</strong><span>Designed for scalable discovery workflows</span></div></div></div>
+    </header>
 
-  <p>Powered by the proprietary WEAVER™ platform.</p>
+    <section class="problem" id="why">
+      <div class="shell problem-grid reveal">
+        <div><p class="eyebrow">The missing layer</p><h2>Abundance is not mechanism.</h2></div>
+        <div><p class="lede">Today’s omics tools generate extraordinary volumes of data, yet they often describe which molecules are present—not how those molecules interact to drive disease. Arachne is built to reveal that missing mechanistic layer.</p><div class="tension"><article><div class="number">Too much</div><h3>Signal without clarity</h3><p>Massive datasets, false positives, and associations that are difficult to translate.</p></article><article><div class="number">Too little</div><h3>Context without depth</h3><p>Critical isoforms, modifications, and native molecular relationships remain hidden.</p></article></div></div>
+      </div>
+    </section>
+
+    <section class="platform" id="platform">
+      <div class="shell"><div class="reveal"><p class="eyebrow">The WEAVER™ platform</p><h2>From native molecular interactions to actionable insight.</h2><p class="lede">Our patent-pending platform maps biomolecular relationships at single-cell resolution, creating a direct path from discovery to disease mechanism.</p></div>
+        <div class="platform-layout reveal"><div class="steps"><article class="step"><h3>Capture</h3><p>Preserve and identify molecular interactions in their native cellular context.</p></article><article class="step"><h3>Resolve</h3><p>Map interaction patterns across individual cells and molecular modalities.</p></article><article class="step"><h3>Translate</h3><p>Surface disease drivers, druggable nodes, RNA targets, and biomarkers.</p></article></div>
+          <div class="engine" aria-label="Diagram showing native cells translated through the WEAVER platform into mechanistic maps"><svg viewBox="0 0 650 370" role="img"><defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0 0l6 3-6 3" fill="none" stroke="#8dd402"/></marker></defs><g fill="none" stroke="#8dd402"><circle cx="95" cy="185" r="55"/><circle cx="95" cy="185" r="8" fill="#8dd402"/><circle cx="68" cy="160" r="5"/><circle cx="123" cy="207" r="6"/><path d="M103 180l80-35M103 190l80 35" marker-end="url(#arrow)"/><rect x="186" y="105" width="250" height="160" stroke="#fff" opacity=".65"/><path d="M210 145h200M210 185h200M210 225h200" opacity=".3"/><path d="M245 120v130M310 120v130M375 120v130" opacity=".3"/><circle cx="245" cy="145" r="6" fill="#8dd402"/><circle cx="310" cy="225" r="6" fill="#8dd402"/><circle cx="375" cy="185" r="6" fill="#8dd402"/><path d="M250 145c35 0 25 80 60 80s25-40 65-40" stroke-width="3"/><path d="M436 185h85" marker-end="url(#arrow)"/><g transform="translate(555 185)"><circle r="48"/><path d="M-26-15 0 0l30-26M0 0l26 29M0 0l-31 24"/><circle cx="-26" cy="-15" r="5" fill="#8dd402"/><circle cx="30" cy="-26" r="5" fill="#8dd402"/><circle cx="26" cy="29" r="5" fill="#8dd402"/><circle cx="-31" cy="24" r="5" fill="#8dd402"/></g></g><g fill="#fff" font-family="sans-serif" font-size="13" text-anchor="middle"><text x="95" y="273">NATIVE CELL</text><text x="311" y="294">WEAVER™</text><text x="555" y="273">MECHANISM</text></g></svg></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="applications" id="applications"><div class="shell reveal"><p class="eyebrow">Where mechanism matters</p><h2>One platform. Multiple paths to therapeutic value.</h2><div class="applications-grid"><article class="app-card"><span class="index">01 / DISCOVER</span><h3>Target discovery</h3><p>Identify the molecular relationships that reveal true disease drivers and druggable nodes.</p></article><article class="app-card"><span class="index">02 / UNDERSTAND</span><h3>Mechanism of action</h3><p>See how perturbations reshape interaction networks and cellular response.</p></article><article class="app-card"><span class="index">03 / TRANSLATE</span><h3>Biomarkers & response</h3><p>Connect molecular mechanism to patient stratification, therapeutic response, and resistance.</p></article></div></div></section>
+
+    <section class="about" id="about"><div class="shell about-grid reveal"><div><p class="eyebrow">About Arachne</p><p class="statement">We are building a new molecular interaction layer for biology—one designed to turn complex cellular data into <em>mechanistic clarity.</em></p></div><div class="about-copy"><p>Arachne brings together deep scientific invention, platform development, product strategy, and company building to address a central challenge in drug discovery: understanding what actually drives disease.</p><p>Our long-term vision is a proprietary atlas of molecular interactions that powers partnerships, therapeutic programs, and a new generation of discovery tools.</p></div></div></section>
+
+    <section class="contact" id="contact"><div class="shell contact-grid reveal"><div><p class="eyebrow">Work with us</p><h2>Let’s uncover the interactions that matter.</h2></div><a class="button" href="mailto:alex@arachne.bio">Contact Arachne</a></div></section>
+  </main>
+  <footer><div class="shell footer-inner"><span>© <span id="year"></span> Arachne. All rights reserved.</span><span>WEAVER™ molecular interaction platform</span></div></footer>
+  <script>
+    const menu=document.querySelector('.menu'), links=document.querySelector('#nav-links');
+    menu.addEventListener('click',()=>{const open=links.classList.toggle('open');menu.setAttribute('aria-expanded',open);});
+    links.addEventListener('click',()=>{links.classList.remove('open');menu.setAttribute('aria-expanded','false');});
+    document.querySelector('#year').textContent=new Date().getFullYear();
+    const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.12});
+    document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+  </script>
 </body>
 </html>
